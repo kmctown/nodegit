@@ -16,9 +16,7 @@ const exec = promisify(function(command, opts, callback) {
   return require("child_process").exec(command, opts, callback);
 });
 
-
 const utils = require("./utils");
-const idefs = require("../output/idefs");
 
 module.exports = function generateNativeCode() {
   // Customize the delimiters so as to not process `{{{` or `}}}`.
@@ -91,6 +89,7 @@ module.exports = function generateNativeCode() {
 
   // Determine which definitions to actually include in the source code.
   // This might not be needed anymore but to be frank I'm not totally positive
+  const idefs = require("../output/idefs");
   var enabled = idefs.filter(function(idef) {
     return !idef.ignore;
   });

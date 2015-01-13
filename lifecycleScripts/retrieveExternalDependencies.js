@@ -23,10 +23,10 @@ module.exports = function retrieveExternalDependencies() {
 
 
 function getVendorLib(name, url) {
-  var vendorPath = rooted("vendor/" + name + "/");
+  var vendorPath = "vendor/" + name + "/";
   var version = pkg[name].sha || pkg[name].version;
 
-  console.info("[nodegit] Detecting" + vendorPath + ".");
+  console.info("[nodegit] Detecting " + vendorPath + ".");
   return check(name)
     .then(function(exists) {
       if (exists) {
@@ -38,7 +38,7 @@ function getVendorLib(name, url) {
           .then(function(exists) {
             if (exists) {
               console.info("[nodegit] Removing outdated " + vendorPath + ".");
-              return fse.remove(vendorPath)
+              return fse.remove(rooted(vendorPath));
             }
             else {
               console.info("[nodegit] " + vendorPath + " not found.");
@@ -62,12 +62,12 @@ function getVendorLib(name, url) {
             });
           })
           .then(function() {
-            return fse.writeFile(vendorPath + version, "");
+            return fse.writeFile(rooted(vendorPath + version), "");
           })
           .then(function() {
             if ((name == "libssh2") && (process.platform !== "win32")) {
               return new Promise(function(resolve, reject) {
-                cp.exec(vendorPath + "configure", {cwd: vendorPath}, function(err, stdout, stderr) {
+                cp.exec(rooted(vendorPath) + "configure", {cwd: rooted(vendorPath)}, function(err, stdout, stderr) {
                   if (err) {
                     reject(err, stderr);
                   }

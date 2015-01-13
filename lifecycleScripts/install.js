@@ -32,7 +32,10 @@ forNodeWebkit(local(".."))
     console.info("[nodegit] Fetching binary from S3.");
     return exec("node-pre-gyp build")
       .then(
-        Promise.done,
+        function() {
+          console.info("[nodegit] Completed installation successfully.");
+          return Promise.done();
+        },
         function() {
           console.info("[nodegit] Failed to install prebuilt binary, building manually.");
           return checkAndBuild();
@@ -83,6 +86,7 @@ function build(nwVersion) {
   return exec(cmd, opts)
     .then(function() {
       console.info("[nodegit] Compilation complete.");
+      console.info("[nodegit] Completed installation successfully.");
     },
     function(err, stderr) {
       console.error(err);

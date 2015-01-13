@@ -5,11 +5,11 @@ const fse = promisify(require("fs-extra"));
 const utils = require("./utils");
 
 const testFilesPath = "../test/tests";
-const idefs = require("../output/idefs");
 const missingFileIgnores = require("../input/ignored-missing-tests");
 
 module.exports = function generateMissingTests() {
   var output = {};
+  const idefs = require("../output/idefs");
 
   function findMissingTest(idef) {
     return new Promise(function(resolve, reject) {
@@ -57,8 +57,9 @@ module.exports = function generateMissingTests() {
 
   var promises = [];
 
-  idefs.forEach(function(idef) {
-    promises.push(findMissingTest(idef));
+  const idefs = require("../output/idefs");
+  var promises = idefs.map(function(idef) {
+    return findMissingTest(idef);
   });
 
   Promise.all(promises).then(
