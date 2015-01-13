@@ -1,24 +1,26 @@
 var Promise = require('nodegit-promise');
 var promisify = require('promisify-node');
 var fse = promisify('fs-extra');
-var path = require('path');
-var tar = require('tar');
 var zlib = require('zlib');
-var request = require('request');
 var cp = require('child_process');
+var path = require('path');
 
 var local = path.join.bind(path, __dirname);
 var rooted = path.join.bind(path, __dirname, '..');
 
 var check = require(local("checkPrepared")).checkVendor;
 var pkg = require(rooted('package'));
+var tar;
+var request;
 
 module.exports = function retrieveExternalDependencies() {
+  tar = require('tar');
+  request = require('request');
   return Promise.all([
     getVendorLib("libgit2", "https://github.com/libgit2/libgit2/tarball/" + pkg.libgit2.sha),
     getVendorLib("libssh2", pkg.libssh2.url),
     getVendorLib("http_parser", pkg.http_parser.url)
-  ]);
+  ])
 };
 
 
@@ -60,6 +62,7 @@ function getVendorLib(name, url) {
                 .on("error", reject)
                 .on("end", resolve);
             });
+
           })
           .then(function() {
             return fse.writeFile(rooted(vendorPath + version), "");

@@ -49,6 +49,7 @@ function checkGenerated() {
     }, true);
   });
 }
+module.exports.checkGenerated = checkGenerated;
 
 // Called on the command line
 if (require.main === module) {

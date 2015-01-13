@@ -9,7 +9,6 @@ const missingFileIgnores = require("../input/ignored-missing-tests");
 
 module.exports = function generateMissingTests() {
   var output = {};
-  const idefs = require("../output/idefs");
 
   function findMissingTest(idef) {
     return new Promise(function(resolve, reject) {
@@ -55,8 +54,6 @@ module.exports = function generateMissingTests() {
     });
   };
 
-  var promises = [];
-
   const idefs = require("../output/idefs");
   var promises = idefs.map(function(idef) {
     return findMissingTest(idef);
@@ -67,7 +64,7 @@ module.exports = function generateMissingTests() {
       utils.writeFile("output/missing-tests.json", output);
     },
     function(fail) {
-      console.log(fail);
+      console.error(fail);
     }
   );
 
