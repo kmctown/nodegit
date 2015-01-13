@@ -61,6 +61,7 @@
   ],
   "dependencies": {
     "find-parent-dir": "^0.3.0",
+    "for-node-webkit": "0.0.2",
     "fs-extra": "^0.12.0",
     "node-pre-gyp": "~0.5.27",
     "nodegit-promise": "~1.0.0",
