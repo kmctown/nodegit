@@ -95,7 +95,7 @@
     "generateNativeCode": "node generate/scripts/generateNativeCode",
     "generateMissingTests": "node generate/scripts/generateMissingTests",
     "publish": "node-pre-gyp package && node-pre-gyp publish",
-    "install": "node install",
+    "install": "node lifecycleScripts/install",
     "recompile": "BUILD_ONLY=true npm install",
     "rebuild": "BUILD_ONLY=true node generate && node-gyp configure build"
   }
